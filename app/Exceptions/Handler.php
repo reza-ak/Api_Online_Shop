@@ -2,11 +2,15 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use App\Traits\ApiResponser;
 use Throwable;
+use Illuminate\Http\Request;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
+    use ApiResponser;
     /**
      * The list of the inputs that are never flashed to the session on validation exceptions.
      *
@@ -25,6 +29,15 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (Throwable $e, Request $request) {
+            if ($request->is('api/*')) { // فقط برای درخواست های api
+                if ($e instanceof NotFoundHttpException) {
+                    return $this->errorResponse(404, $e->getMessage());
+                }
+                return $this->errorResponse(500, $e->getMessage());
+            }
         });
     }
 }
