@@ -77,8 +77,8 @@ class BrandController extends ApiController
     public function update(Request $request, Brand $brand)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'display_name' => 'required',
+            // 'name' => 'required',
+            'display_name' => 'unique:brands',
         ]);
         if ($validator->fails()) {
             return $this->errorResponse($validator->messages(), 422);
@@ -88,8 +88,8 @@ class BrandController extends ApiController
             DB::beginTransaction(); // شروع transaction
 
             $brand->update([
-                'name' => $request->name,
-                'display_name' => $request->display_name,
+                'name' => $request->has('name') ? $request->name : $brand->name,
+                'display_name' => $request->has('display_name') ? $request->display_name : $brand->display_name,
             ]);
 
             DB::commit(); // در صورت موفقیت تغییرات انجام میشود\
