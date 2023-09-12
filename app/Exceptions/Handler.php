@@ -36,7 +36,6 @@ class Handler extends ExceptionHandler
                 if ($e instanceof NotFoundHttpException) {
                     return $this->errorResponse(404, $e->getMessage());
                 }
-                return $this->errorResponse(500, $e->getMessage());
             }
         });
     }
