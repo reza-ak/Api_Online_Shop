@@ -64,9 +64,9 @@ class BrandController extends ApiController
     public function show(string $id)
     {
         $brand = Brand::find($id);
-        if(!is_null($brand)){
-            return $this->successResponse(new BrandResource($brand), 201);
-        }else{
+        if (!is_null($brand)) {
+            return $this->successResponse(new BrandResource($brand), 200);
+        } else {
             return $this->errorResponse("Not Found", 404);
         }
     }
@@ -108,5 +108,12 @@ class BrandController extends ApiController
     {
         $brand->delete();
         return $this->successResponse(new BrandResource($brand), 200);
+    }
+
+    // get the products of any brand
+    public function products(string $id)
+    {
+        $brand = Brand::find($id);
+        return $this->successResponse(new BrandResource($brand->load('products')), 200);
     }
 }
