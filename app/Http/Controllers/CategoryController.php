@@ -115,4 +115,11 @@ class CategoryController extends ApiController
     public function parent(Category $category){
         return $this->successResponse(new CategoryResource($category->load('parent')), 200);
     }
+
+    // get the products of any category
+    public function products(string $id)
+    {
+        $category = Category::find($id);
+        return $this->successResponse(new CategoryResource($category->load('products')), 200);
+    }
 }
