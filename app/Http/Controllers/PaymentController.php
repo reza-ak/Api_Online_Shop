@@ -28,6 +28,25 @@ class PaymentController extends ApiController
         }
     }
 
+    public function verify(Request $request)
+    {
+        if (!empty($request->status) && $request->status == "success") {
+            $api = 'sandbox';
+            $token = $request->token;
+            $amount = 120000;
+            $result = json_decode($this->verifyRequest($api, $token, $amount));
+            if (!empty($result->success)) {
+                echo "<h1>تراکنش با موفقیت انجام شد</h1>";
+                return $this->successResponse($result, 200);
+            } else {
+                print_r($result->errors);
+                echo "<h1>تراکنش با خطا مواجه شد</h1>";
+            }
+        } else {
+            echo "<h1>تراکنش با خطا مواجه شد</h1>";
+        }
+    }
+
     public function token($api, $amount, $callback, $mobile, $email, $description)
     {
         return $this->curl_post('https://sandbox.shepa.com/api/v1/token', [
@@ -37,6 +56,15 @@ class PaymentController extends ApiController
             'mobile' => $mobile,
             'email' => $email,
             'description' => $description,
+        ]);
+    }
+
+    public function verifyRequest($api, $token, $amount)
+    {
+        return $this->curl_post('https://sandbox.shepa.com/api/v1/verify', [
+            'api' => $api,
+            'token' => $token,
+            'amount' => $amount,
         ]);
     }
 
