@@ -1,10 +1,15 @@
 # todo
 This is a simple online shop project that includes the following features:
 <br>
-- create, read, update, delete brand
-- create, read, update, delete category
-- show children and parent of each category
-- create, read, update, delete product
+- Create, read, update, delete brand
+- Create, read, update, delete category
+- Show children and parent of each category
+- Create, read, update, delete product
+- Show products of a brand
+- Show products of a category
+- Payment gateway (shepa.com)
+- Order registration
+- Authentication (sanctum)
 
 # versions
 PHP 8.1.12
