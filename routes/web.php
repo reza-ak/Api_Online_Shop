@@ -25,5 +25,5 @@ Route::get('/payment/verify', function (Request $request) {
         'token' => $request->token,
         'status' => $request->status,
     ]);
-    return $response->body();
+    dd($response->json());
 });
